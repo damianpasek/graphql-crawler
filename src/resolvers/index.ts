@@ -1,0 +1,1 @@
+export { UrlsResolver } from './Urls'

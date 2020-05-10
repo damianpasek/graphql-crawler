@@ -1,0 +1,9 @@
+node_modules
+dist
+.env
+coverage
+*.iml
+/.idea
+yarn-error.log
+.env.local
+.vscode

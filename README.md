@@ -20,6 +20,18 @@ Building project
 $ yarn build
 ```
 
+## Database
+
+Project contains `docker-compose.yml` file so to run database you need to run command
+```
+$ docker-compose up
+```
+
+To run migrations:
+```
+$ yarn typeorm:cli migration:run
+```
+
 ### Tests and Linting
 
 ```

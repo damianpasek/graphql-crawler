@@ -4,8 +4,10 @@ import express from 'express'
 import { createServer } from 'http'
 
 import { createSchema } from './utils/createSchema'
+import { createDbConnection } from './config/db'
 
 export const getServer = async () => {
+  await createDbConnection()
   const schema = await createSchema()
 
   const app = express()

@@ -10,6 +10,7 @@
     "build": "tsc --outDir dist",
     "dev": "tsc && concurrently -r \"nodemon dist/index.js\" \"tsc -w --project tsconfig.json\"",
     "lint": "eslint src --ext ts,js",
+    "typeorm:cli": "ts-node ./node_modules/typeorm/cli.js",
     "test": "TZ=UTC jest .",
     "start": "node dist/index"
   },
@@ -21,10 +22,12 @@
     "express": "^4.17.1",
     "graphql": "^15.0.0",
     "graphql-subscriptions": "^1.1.0",
+    "mysql": "^2.18.1",
     "puppeteer": "^3.0.4",
     "reflect-metadata": "^0.1.13",
     "ts-node": "^8.10.1",
     "type-graphql": "^1.0.0-rc.1",
+    "typeorm": "^0.2.24",
     "typescript": "^3.8.3"
   },
   "devDependencies": {

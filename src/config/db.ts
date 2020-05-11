@@ -4,7 +4,7 @@ import { Website } from '../entities/Website'
 
 export const createDbConnection = async (): Promise<Connection> => {
   const connectionName = process.env.NODE_ENV === 'test' ? 'test' : 'default'
-  const { name, ...options } = await getConnectionOptions(connectionName)
+  const { migrations, name, ...options } = await getConnectionOptions(connectionName)
 
   const connection = await createConnection({
     ...options,

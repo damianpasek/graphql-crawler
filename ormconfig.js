@@ -1,8 +1,7 @@
 const base = {
-  // TypeORM has a bug. Database option here is redundant but cannot be removed
-  database: 'database',
+  database: 'crawler',
   migrations: [
-    'src/migrations/*.js',
+    'src/migrations/*.ts',
   ],
   cli: {
     entitiesDir: 'src/entities',
@@ -21,7 +20,7 @@ module.exports = [
     ...base,
     name: 'test',
     type: 'sqlite',
-    url: 'sqlite://:memory:',
+    database: ':memory:',
     dropSchema: true,
     synchronize: true,
   },

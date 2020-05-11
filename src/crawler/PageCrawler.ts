@@ -1,6 +1,6 @@
 import puppeteer, { Page } from 'puppeteer'
 
-export const findOnPage = async <T>(url: string, callback: (page: Page) => T): Promise<T> => {
+export const getPage = async <T>(url: string, callback: (page: Page) => T): Promise<T> => {
   const browser = await puppeteer.launch()
 
   try {
@@ -18,6 +18,6 @@ const getLinkUrls: (page: Page) => Promise<string[]> = async (page: Page) =>
   page.$$eval('a', (as: any) => as.map((a: any): string => a.href))
 
 export const getPageUrls = async (url: string): Promise<string[]> => {
-  const urls = await findOnPage(url, getLinkUrls)
+  const urls = await getPage(url, getLinkUrls)
   return [...new Set(urls)].filter(Boolean)
 }

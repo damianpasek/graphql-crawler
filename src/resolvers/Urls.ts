@@ -1,32 +1,41 @@
-import { Resolver, Query, PubSub, Root, Publisher, Arg, Subscription } from 'type-graphql'
+import { Mutation, Resolver, Query, PubSub, Root, Publisher, Arg, Subscription } from 'type-graphql'
 
 import {
   NEW_URLS_STATS_TOPIC,
   INDEXED_URLS_STATS_TOPIC,
 } from '../constants/topics'
-import { getPageUrls } from '../crawler/PageCrawler'
 import {
   NewUrlNotifictionPayload,
   NewUrlNotifiction,
   IndexedUrlsNotifictionPayload,
   IndexedUrlsNotifiction,
 } from '../entities/UrlsNotification'
-import { GetUrlsInput } from '../inputs/UrlsInput'
+import { GetUrlsInput, CrawlWebsiteInput } from '../inputs/UrlsInput'
+import { crawlWebsite } from '../utils/crawler'
+import { retrieveWebsiteUrls } from '../repositories/website'
 
 @Resolver()
 export class UrlsResolver {
-  @Query(() => [String])
-  async getUrls (
-    @Arg('input') { url }: GetUrlsInput,
+  @Mutation(() => [String])
+  async crawlUrl (
+    @Arg('input') { url }: CrawlWebsiteInput,
     @PubSub(NEW_URLS_STATS_TOPIC) publishNewUrl: Publisher<NewUrlNotifictionPayload>,
     @PubSub(INDEXED_URLS_STATS_TOPIC) publishIndexedUrls: Publisher<IndexedUrlsNotifictionPayload>,
   ) {
     await publishNewUrl({ url })
-
-    const urls = await getPageUrls(url)
+    const urls = await crawlWebsite(url)
     await publishIndexedUrls({ urls })
 
-    return urls || []
+    return urls
+  }
+
+  @Query(() => [String])
+  async getUrls (
+    @Arg('input') { url, limit, offset }: GetUrlsInput,
+  ) {
+    const urls = await retrieveWebsiteUrls(url, limit, offset)
+
+    return urls
   }
 
   @Subscription({ topics: NEW_URLS_STATS_TOPIC })

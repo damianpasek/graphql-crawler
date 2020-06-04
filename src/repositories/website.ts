@@ -2,11 +2,7 @@ import { getConnection, getManager } from 'typeorm'
 
 import { Website } from '../entities/Website'
 
-export const retrieveWebsiteUrls = async (
-  name: string,
-  limit?: number,
-  offset?: number,
-) => {
+export const retrieveWebsiteUrls = async (name: string, limit?: number, offset?: number) => {
   const repository = getManager().getRepository(Website)
   const websites = await repository.find({
     where: { name },
@@ -24,11 +20,6 @@ export const addUniqueUrls = async (name: string, urls: string[]) => {
     .map((url) => ({ name, url }))
 
   if (payload.length) {
-    await getConnection()
-      .createQueryBuilder()
-      .insert()
-      .into(Website)
-      .values(payload)
-      .execute()
+    await getConnection().createQueryBuilder().insert().into(Website).values(payload).execute()
   }
 }

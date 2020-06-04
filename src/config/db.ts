@@ -6,14 +6,10 @@ export const createDbConnection = async (): Promise<Connection> => {
   const connectionName = process.env.NODE_ENV === 'test' ? 'test' : 'default'
   const { migrations, name, ...options } = await getConnectionOptions(connectionName)
 
-  const connection = await createConnection({
+  return createConnection({
     ...options,
-    entities: [
-      Website,
-    ],
+    entities: [Website],
   })
-
-  return connection
 }
 
 export const closeDbConnection = async () => getConnection().close()

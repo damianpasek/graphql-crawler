@@ -11,9 +11,7 @@ describe('Urls Resolver', () => {
 
   describe('crawlUrl', () => {
     beforeEach(() => {
-      jest.spyOn(crawler, 'crawlWebsite').mockResolvedValue([
-        'https://example.com',
-      ])
+      jest.spyOn(crawler, 'crawlWebsite').mockResolvedValue(['https://example.com'])
     })
 
     const crawlUrlMutation = `
@@ -22,12 +20,13 @@ describe('Urls Resolver', () => {
       }
     `
 
-    const crawlUrl = (url: string) => callGraphQL({
-      source: crawlUrlMutation,
-      variableValues: {
-        input: { url },
-      },
-    })
+    const crawlUrl = (url: string) =>
+      callGraphQL({
+        source: crawlUrlMutation,
+        variableValues: {
+          input: { url },
+        },
+      })
 
     it('should call page crawler and return list of crawled urls', async () => {
       const urls = await crawlUrl(MOCKED_URL)
@@ -50,9 +49,9 @@ describe('Urls Resolver', () => {
     })
 
     it('should return error if any occured', async () => {
-      const error = new Error('Page load error');
+      const error = new Error('Page load error')
 
-      (crawler.crawlWebsite as jest.Mock).mockImplementation(() => {
+      ;(crawler.crawlWebsite as jest.Mock).mockImplementation(() => {
         throw error
       })
 
@@ -64,9 +63,9 @@ describe('Urls Resolver', () => {
 
   describe('getUrls', () => {
     beforeEach(() => {
-      jest.spyOn(websiteRepository, 'retrieveWebsiteUrls').mockResolvedValue([
-        'https://example.com',
-      ])
+      jest
+        .spyOn(websiteRepository, 'retrieveWebsiteUrls')
+        .mockResolvedValue(['https://example.com'])
     })
 
     const getUrlsQuery = `
@@ -75,12 +74,13 @@ describe('Urls Resolver', () => {
       }
     `
 
-    const getUrls = (url: string, limit: number, offset: number) => callGraphQL({
-      source: getUrlsQuery,
-      variableValues: {
-        input: { url, limit, offset },
-      },
-    })
+    const getUrls = (url: string, limit: number, offset: number) =>
+      callGraphQL({
+        source: getUrlsQuery,
+        variableValues: {
+          input: { url, limit, offset },
+        },
+      })
 
     it('should call website repository and return urls', async () => {
       const query = await getUrls(MOCKED_URL, 10, 30)
@@ -90,9 +90,9 @@ describe('Urls Resolver', () => {
     })
 
     it('should throw error if any was thrown', async () => {
-      const error = new Error('DB Connection Issue');
+      const error = new Error('DB Connection Issue')
 
-      (websiteRepository.retrieveWebsiteUrls as jest.Mock).mockImplementation(() => {
+      ;(websiteRepository.retrieveWebsiteUrls as jest.Mock).mockImplementation(() => {
         throw error
       })
 
@@ -110,16 +110,14 @@ describe('Urls Resolver', () => {
       ['https://test.website', undefined, undefined, false],
       ['https://test.website', 'string', 'string', false],
       ['https://test.website', {}, [], false],
-    ])('should validate url (%s)', async (
-      url: string,
-      limit: number,
-      offset: number,
-      correct: boolean,
-    ) => {
-      const urls = await getUrls(url, limit, offset)
+    ])(
+      'should validate url (%s)',
+      async (url: string, limit: number, offset: number, correct: boolean) => {
+        const urls = await getUrls(url, limit, offset)
 
-      expect(!!urls.data).toBe(correct)
-      expect(!urls.errors).toBe(correct)
-    })
+        expect(!!urls.data).toBe(correct)
+        expect(!urls.errors).toBe(correct)
+      },
+    )
   })
 })

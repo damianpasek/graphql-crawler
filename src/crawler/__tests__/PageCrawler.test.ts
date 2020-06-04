@@ -11,14 +11,16 @@ describe('PageCrawler', () => {
     let mockedPage
     let mockedBrowser
 
-    const getMockedPage = () => ({
-      goto: jest.fn(),
-    }) as any as puppeteer.Page
+    const getMockedPage = () =>
+      (({
+        goto: jest.fn(),
+      } as any) as puppeteer.Page)
 
-    const getMockedBrowser = () => ({
-      close: jest.fn(),
-      newPage: jest.fn().mockResolvedValue(mockedPage),
-    }) as any as puppeteer.Browser
+    const getMockedBrowser = () =>
+      (({
+        close: jest.fn(),
+        newPage: jest.fn().mockResolvedValue(mockedPage),
+      } as any) as puppeteer.Browser)
 
     beforeEach(() => {
       mockedPage = getMockedPage()
@@ -40,12 +42,12 @@ describe('PageCrawler', () => {
     })
 
     it('should throw an error if occurred and close browser', async () => {
-      const callback = jest.fn().mockResolvedValue('CallbackResolvedValue');
-      (mockedBrowser.newPage as jest.Mock).mockRejectedValue('NewPageError')
+      const callback = jest.fn().mockResolvedValue('CallbackResolvedValue')
+      ;(mockedBrowser.newPage as jest.Mock).mockRejectedValue('NewPageError')
 
-      await expect(pageCrawler.getPage('https://example.website', callback))
-        .rejects
-        .toBe('NewPageError')
+      await expect(pageCrawler.getPage('https://example.website', callback)).rejects.toBe(
+        'NewPageError',
+      )
       expect(callback).not.toHaveBeenCalled()
       expect(mockedBrowser.close).toHaveBeenCalled()
     })
@@ -53,9 +55,9 @@ describe('PageCrawler', () => {
     it('should throw an error if callback rejected and close browser', async () => {
       const callback = jest.fn().mockRejectedValue('CallbackRejectedValue')
 
-      await expect(pageCrawler.getPage('https://example.website', callback))
-        .rejects
-        .toBe('CallbackRejectedValue')
+      await expect(pageCrawler.getPage('https://example.website', callback)).rejects.toBe(
+        'CallbackRejectedValue',
+      )
       expect(callback).toHaveBeenCalledWith(mockedPage)
       expect(mockedBrowser.close).toHaveBeenCalled()
     })
@@ -64,25 +66,26 @@ describe('PageCrawler', () => {
   describe('getPageUrls', () => {
     let mockedPage
 
-    const getMockedPage = () => ({
-      goto: jest.fn(),
-      $$eval: jest.fn().mockImplementation((element, mapper) => {
-        const response = [
-          { href: 'https://example.website' },
-          { href: 'https://example.website' },
-          { href: '' },
-        ]
+    const getMockedPage = () =>
+      ({
+        goto: jest.fn(),
+        $$eval: jest.fn().mockImplementation((element, mapper) => {
+          const response = [
+            { href: 'https://example.website' },
+            { href: 'https://example.website' },
+            { href: '' },
+          ]
 
-        expect(element).toBe('a')
-        expect(mapper(response)).toEqual([
-          'https://example.website',
-          'https://example.website',
-          '',
-        ])
+          expect(element).toBe('a')
+          expect(mapper(response)).toEqual([
+            'https://example.website',
+            'https://example.website',
+            '',
+          ])
 
-        return mapper(response)
-      }),
-    }) as any
+          return mapper(response)
+        }),
+      } as any)
 
     beforeEach(() => {
       mockedPage = getMockedPage()
@@ -108,9 +111,7 @@ describe('PageCrawler', () => {
     it('should throw an error when occurred', async () => {
       jest.spyOn(pageCrawler, 'getPage').mockRejectedValue('ExampleError')
 
-      await expect(pageCrawler.getPageUrls('http://test.website'))
-        .rejects
-        .toBe('ExampleError')
+      await expect(pageCrawler.getPageUrls('http://test.website')).rejects.toBe('ExampleError')
     })
   })
 })

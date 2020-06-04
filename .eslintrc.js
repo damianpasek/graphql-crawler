@@ -5,7 +5,9 @@ module.exports = {
     jest: true,
   },
   extends: [
-    'standard'
+    'standard',
+    'prettier/@typescript-eslint',
+    'plugin:prettier/recommended'
   ],
   globals: {
     Atomics: 'readonly',

@@ -11,6 +11,7 @@
     "dev": "tsc && concurrently -r \"nodemon dist/index.js\" \"tsc -w --project tsconfig.json\"",
     "lint": "eslint src --ext ts,js",
     "typeorm:cli": "ts-node ./node_modules/typeorm/cli.js",
+    "migrate": "yarn typeorm:cli migration:run",
     "test": "TZ=UTC jest .",
     "start": "node dist/index"
   },

@@ -47,9 +47,7 @@ describe('Website repository', () => {
         'http://url-3',
         'http://url-4',
       ])
-      expect(await retrieveWebsiteUrls(MOCKED_WEBSITE_NAME, 2, 4)).toEqual([
-        'http://url-5',
-      ])
+      expect(await retrieveWebsiteUrls(MOCKED_WEBSITE_NAME, 2, 4)).toEqual(['http://url-5'])
     })
 
     it('should return empty array if offset exceeds numer of records', async () => {
@@ -80,9 +78,7 @@ describe('Website repository', () => {
       const records = await getRecords(Website, { name })
 
       expect(records.length).toBe(1)
-      expect(records).toEqual([
-        { id: 3, name, url },
-      ])
+      expect(records).toEqual([{ id: 3, name, url }])
     })
 
     it('should add only new urls to the database', async () => {

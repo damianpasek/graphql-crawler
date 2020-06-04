@@ -7,8 +7,7 @@ export const getPage = async <T>(url: string, callback: (page: Page) => T): Prom
     const page = await browser.newPage()
     await page.goto(url)
 
-    const result = await callback(page)
-    return result
+    return callback(page)
   } finally {
     browser.close()
   }

@@ -18,7 +18,7 @@
   "repository": "https://github.com/damianpasek/graphql-crawler.git",
   "author": "Damian Pasek",
   "dependencies": {
-    "apollo-server-express": "^2.13.0",
+    "apollo-server-express": "^2.14.2",
     "class-validator": "^0.12.2",
     "express": "^4.17.1",
     "graphql": "^15.0.0",

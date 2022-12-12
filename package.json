@@ -20,7 +20,7 @@
   "dependencies": {
     "apollo-server-express": "^2.13.0",
     "class-validator": "^0.12.2",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "graphql": "^15.0.0",
     "graphql-subscriptions": "^1.1.0",
     "mysql": "^2.18.1",
